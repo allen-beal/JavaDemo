@@ -1,0 +1,70 @@
+#################################################
+## mysql serverId , v1.0.26+ will autoGen
+# canal.instance.mysql.slaveId=0
+#canal伪装的mysql slaveId，不要重复即可
+canal.instance.mysql.slaveId=654321
+
+# enable gtid use true/false
+canal.instance.gtidon=false
+
+# position info
+#需要监听的mysql地址
+canal.instance.master.address=192.168.49.201:3306
+canal.instance.master.journal.name=
+canal.instance.master.position=
+canal.instance.master.timestamp=
+canal.instance.master.gtid=
+
+# rds oss binlog
+canal.instance.rds.accesskey=
+canal.instance.rds.secretkey=
+canal.instance.rds.instanceId=
+
+# table meta tsdb info
+canal.instance.tsdb.enable=true
+#canal.instance.tsdb.url=jdbc:mysql://127.0.0.1:3306/canal_tsdb
+#canal.instance.tsdb.dbUsername=canal
+#canal.instance.tsdb.dbPassword=canal
+
+#canal.instance.standby.address =
+#canal.instance.standby.journal.name =
+#canal.instance.standby.position =
+#canal.instance.standby.timestamp =
+#canal.instance.standby.gtid=
+
+# username/password
+#监听的mysql用户名和密码
+canal.instance.dbUsername=root
+canal.instance.dbPassword=123456
+canal.instance.connectionCharset = UTF-8
+#需要监听的mysql数据库
+canal.instance.defaultDatabaseName=blade
+# enable druid Decrypt database password
+canal.instance.enableDruid=false
+#canal.instance.pwdPublicKey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBALK4BUxdDltRRE5/zXpVEVPUgunvscYFtEip3pmLlhrWpacX7y7GCMo2/JM6LeHmiiNdH1FWgGCpUfircSwlWKUCAwEAAQ==
+
+# table regex
+#canal.instance.filter.regex=.*\\..*
+#需要监听的mysql数据库，支持正则表达，blade\..*表示监听blade库下所有表
+canal.instance.filter.regex=blade\..*
+# table black regex
+#黑名单，在这里配置的表不需要监听，支持正则表达   blade.person，表示blade库下person表不需要监听
+canal.instance.filter.black.regex=blade.person
+# table field filter(format: schema1.tableName1:field1/field2,schema2.tableName2:field1/field2)
+#canal.instance.filter.field=test1.t_product:id/subject/keywords,test2.t_company:id/name/contact/ch
+# table field black filter(format: schema1.tableName1:field1/field2,schema2.tableName2:field1/field2)
+#canal.instance.filter.black.field=test1.t_product:subject/product_image,test2.t_company:id/name/contact/ch
+
+# mq config
+#接受消息的kafka  topic，监听到的binlog会发送到kafka这个topic下
+canal.mq.topic=49.201.blade
+# dynamic topic route by schema or table regex
+#将库下一些特殊的表binlog发送给特殊的topic   配置方法为  table1:topic1;table2:topic2
+canal.mq.dynamicTopic=t_mon_waste_water_cycle_r:envir.t_mon_waste_water_cycle_r;t_mon_smoke_cycle_r:envir.t_mon_smoke_cycle_r;t_mon_stench_cycle_r:envir.t_mon_stench_cycle_r;person:envir.s_person;hs_apply_detailinfo_r:envir.hs_apply_detailinfo_r
+#canal.mq.partition=0
+# hash partition config
+#canal.mq.partitionsNum=3
+canal.mq.partitionsNum=
+#canal.mq.partitionHash=test.table:id^name,.*\\..*
+#将上面配置特殊topic的mysql表主键进行配置   配置方法为  schema.table:cloumn,schema.table2:cloumn2
+canal.mq.partitionHash=envir.t_mon_waste_water_cycle_r:stcd,envir.t_mon_smoke_cycle_r:stcd,envir.t_mon_stench_cycle_r:stcd,envir.s_person:u_id,envir.hs_apply_detailinfo_r:ID
